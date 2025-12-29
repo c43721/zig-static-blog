@@ -7,6 +7,8 @@ const cpu = builtin.cpu;
 pub fn build(b: *std.Build) !void {
     const pandoc_dependency = if (os.tag == .linux and cpu.arch == .x86_64)
         b.lazyDependency("pandoc_linux_amd64", .{}) orelse return
+    else if (os.tag == .linux and cpu.arch == .aarch64)
+        b.lazyDependency("pandoc_linux_arm64", .{}) orelse return
     else if (os.tag == .macos and cpu.arch == .aarch64)
         b.lazyDependency("pandoc_macos_arm64", .{}) orelse return
     else if (os.tag == .windows and cpu.arch == .x86_64)
@@ -16,7 +18,8 @@ pub fn build(b: *std.Build) !void {
 
     const raw_outputs = b.addWriteFiles();
 
-    const pandoc = pandoc_dependency.path("pandoc.exe");
+    const pandoc_exe_name = if (os.tag == .windows) "pandoc.exe" else "bin/pandoc";
+    const pandoc = pandoc_dependency.path(pandoc_exe_name);
 
     const markdown_files = b.run(&.{ "git", "ls-files", "content/*/**.md" });
     var lines = std.mem.tokenizeScalar(u8, markdown_files, '\n');
@@ -50,11 +53,10 @@ pub fn build(b: *std.Build) !void {
     const index_html = markdown2html(b, pandoc, index_page);
     _ = raw_outputs.addCopyFile(index_html, "index.html");
 
-    const transform_source = b.addExecutable(.{
-        .name = "transform",
+    const transform_source = b.addExecutable(.{ .name = "transform", .root_module = b.createModule(.{
         .root_source_file = b.path("transform.zig"),
         .target = b.graph.host,
-    });
+    }) });
 
     const transformed_outputs = b.addWriteFiles();
 

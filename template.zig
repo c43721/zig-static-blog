@@ -9,12 +9,15 @@ writer: std.ArrayList(u8).Writer,
 
 pub fn create(arena: std.mem.Allocator) !*Template {
     var html = try arena.create(Template);
+
     html.* = .{
         .arena = arena,
-        .buffer = std.ArrayList(u8).init(arena),
+        .buffer = .empty,
         .writer = undefined,
     };
-    html.writer = html.buffer.writer();
+
+    html.writer = html.buffer.writer(arena);
+
     return html;
 }
 

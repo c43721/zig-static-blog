@@ -2,11 +2,22 @@
     .name = .build_docs,
     .fingerprint = 0x562b465d67fc5d10,
     .version = "0.0.0",
-    .dependencies = .{
-        .pandoc_windows_x86_64 = .{
-            .url = "https://github.com/jgm/pandoc/releases/download/3.7.0.2/pandoc-3.7.0.2-windows-x86_64.zip",
-            .hash = "N-V-__8AAMLTgg3ZiHfIM8kOZQCR65uvscMeIlCsDxtX1YIH",
-        },
-    },
+    .dependencies = .{ .pandoc_windows_x86_64 = .{
+        .url = "https://github.com/jgm/pandoc/releases/download/3.8.3/pandoc-3.8.3-windows-x86_64.zip",
+        .hash = "N-V-__8AABKO9g11NyJJula0NyBKMA16u4DQnbZyurAo4_Lg",
+        .lazy = true,
+    }, .pandoc_linux_amd64 = .{
+        .url = "https://github.com/jgm/pandoc/releases/download/3.8.3/pandoc-3.8.3-linux-amd64.tar.gz",
+        .hash = "N-V-__8AAMaLwQkKenorC2aviTjTvEYX2uO4kXQFqlUBA9ce",
+        .lazy = true,
+    }, .pandoc_linux_arm64 = .{
+        .url = "https://github.com/jgm/pandoc/releases/download/3.8.3/pandoc-3.8.3-linux-arm64.tar.gz",
+        .hash = "N-V-__8AAB7vrArYQepKlZDr-rtE2wYSgRGH7GirNJilej-8",
+        .lazy = true,
+    }, .pandoc_macos_arm64 = .{
+        .url = "https://github.com/jgm/pandoc/releases/download/3.8.3/pandoc-3.8.3-arm64-macOS.zip",
+        .hash = "N-V-__8AALPkqQsc9RewWe9KBQHRBJi-X3Dq8cWmCZOHI_UK",
+        .lazy = true,
+    } },
     .paths = .{"."},
 }
